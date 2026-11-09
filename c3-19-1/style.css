@@ -1,3 +1,7 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
 .box {
     background-color: #aef;
     width: 400px;
