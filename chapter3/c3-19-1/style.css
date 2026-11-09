@@ -1,0 +1,9 @@
+box{
+    background-color: #aef;
+    width: 400px;
+    padding: 2rem;
+    margin: 1rem ;
+    display: flex
+    float: none;
+    text-align: center;
+}

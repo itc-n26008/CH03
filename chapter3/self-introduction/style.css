@@ -1,0 +1,15 @@
+@charset"UTF-8"; 
+body{
+	background-color: #f5f2e5;
+	background-image: url(images/tyokomin2.png);
+	padding: 20px;
+	line-height: 1.6;
+}
+h1,h2,p,ul,ol{
+	 color: #6c3524;
+	 font-family: "M PLUS Rounded 1c", sans-serif;
+}
+p,ul,ol{
+	 color: #6c3524;
+	font-family: "M PLUS Rounded 1c", sans-serif;
+}

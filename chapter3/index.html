@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>インタラクティブ・ストーリー</title>
+  <style>
+    body {
+      background-color: #1a1a2e;
+      color: #e0e0e0;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .story-card {
+      background: #16213e;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+    /* 追加：画像のスタイル */
+    .story-image {
+      width: 100%;
+      height: 220px;
+      object-fit: cover; /* 画像のアスペクト比を保ちつつ枠いっぱいに表示 */
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    .story-text {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 25px;
+      min-height: 100px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .btn {
+      background-color: #0f3460;
+      color: #fff;
+      border: 1px solid #e94560;
+      padding: 12px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+    .btn:hover {
+      background-color: #e94560;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="story-card">
+    <!-- 追加：画像表示タグ -->
+    <img id="story-image" class="story-image" src="" alt="場面の画像">
+    <div id="story" class="story-text"></div>
+    <div id="options" class="options-container"></div>
+  </div>
+
+  <script>
+    // ストーリーのデータ構造（各シーンに image プロパティを追加）
+    const storyData = {
+      start: {
+        text: "目覚めると、あなたは見たこともない静かな森の中に立っていました。足元には二つの道が続いています。",
+        image: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&auto=format&fit=crop", // 静かな森
+        options: [
+          { text: "光が差し込む右の小道へ進む", nextScene: "brightPath" },
+          { text: "薄暗い左の洞窟へ向かう", nextScene: "cave" }
+        ]
+      },
+      brightPath: {
+        text: "明るい小道を進むと、小さな可愛い茶屋が現れました。店主の老人が微笑みながら温かいお茶を出してくれました。【HAPPY END】",
+        image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&auto=format&fit=crop", // おしゃれなカフェ/茶屋風
+        options: [
+          { text: "最初からやり直す", nextScene: "start" }
+        ]
+      },
+      cave: {
+        text: "洞窟に入ると奥から不気味な声が聞こえます。引き返しますか？それとも奥へ進みますか？",
+        image: "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?w=600&auto=format&fit=crop", // 薄暗い雰囲気
+        options: [
+          { text: "勇気を出して奥へ進む", nextScene: "deepCave" },
+          { text: "怖くなったので入口へ戻る", nextScene: "start" }
+        ]
+      },
+      deepCave: {
+        text: "奥にはキラキラと輝く宝箱が置かれていました！あなたは伝説の財宝を手に入れました。【TREASURE END】",
+        image: "https://images.unsplash.com/photo-1563089145-599997674d42?w=600&auto=format&fit=crop", // 宝物風
+        options: [
+          { text: "最初からやり直す", nextScene: "start" }
+        ]
+      }
+    };
+
+    // 画面を更新する関数
+    function renderScene(sceneKey) {
+      const scene = storyData[sceneKey];
+      const imgElement = document.getElementById("story-image");
+      const storyElement = document.getElementById("story");
+      const optionsElement = document.getElementById("options");
+
+      // 画像の更新（設定がない場合は非表示にする工夫も可能）
+      if (scene.image) {
+        imgElement.src = scene.image;
+        imgElement.style.display = "block";
+      } else {
+        imgElement.style.display = "none";
+      }
+
+      // 文章の更新
+      storyElement.innerText = scene.text;
+
+      // 選択肢ボタンの初期化と生成
+      optionsElement.innerHTML = "";
+      scene.options.forEach(option => {
+        const button = document.createElement("button");
+        button.innerText = option.text;
+        button.className = "btn";
+        button.onclick = () => renderScene(option.nextScene);
+        optionsElement.appendChild(button);
+      });
+    }
+
+    // 初回表示
+    renderScene("start");
+  </script>
+</body>
+</html>

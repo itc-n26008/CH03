@@ -1,0 +1,41 @@
+#自動でディレクトリ入ったり、git branch確認できるようにする
+cd /vagrant/html_data/
+
+if [ -d .git ]; then
+        git branch
+        git status
+	echo fk,fd
+        ls
+else
+        echo "exit→　vagrant reloadを試してください"
+fi
+#git switchの設定
+git() {
+    if [ "$1" = "switch" ]; then
+        command git "$@" && echo git branch && command git branch
+    else
+        command git "$@"
+    fi
+}
+f() {
+  chapter=$(basename "$PWD")
+  num=${chapter#chapter}
+  printf -v two "%02d" "$1"
+  dir="c${num}-${two}-$2"
+
+  mkdir -p "$dir"   # ディレクトリ作成
+  cd "$dir"         # その中に移動
+}
+'''f() {
+  chapter=$(basename "$PWD")
+  num=${chapter#chapter}
+  printf -v two "%02d" "$2"
+  $1 c${num}-${two}-$3
+}''' 
+#自動でディレクトリ作成、移動
+'''fd() {
+  f "$@"
+}'''
+#alias設定
+alias fk='f mkdir'
+alias fd='f cd'
