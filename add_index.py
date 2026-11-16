@@ -41,8 +41,10 @@ for target in targets:
 
     # 二重登録を防ぐ
     if href in existing:
-        print(f"登録済みです: {href}")
+        print(f"追加済みです！: {href}")
         continue
+
+    print(f"新しく追加します！: {href}")
 
     # ディレクトリ名を表示名にする
     name = directory.name
