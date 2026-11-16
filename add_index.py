@@ -1,9 +1,8 @@
-
-from pathlib import Path
-from html import escape
-from urllib.parse import quote
 import re
 import sys
+from html import escape
+from pathlib import Path
+from urllib.parse import quote
 
 # このプログラムが置かれている場所 = リポジトリの一番上
 root = Path(__file__).resolve().parent
@@ -16,8 +15,9 @@ list_file = root / "index.html"
 html = list_file.read_text(encoding="utf-8")
 
 # すでに登録されているリンクを調べる
-existing = set(re.findall(r'href=["\']([^"\']+)["\']', html))
-
+existing = {
+    value.rstrip("/") for value in re.findall(r'href=["\']([^"\']+)["\']', html)
+}
 new_links = []
 
 for target in targets:
@@ -61,10 +61,10 @@ if new_links:
 
     if closing:
         html = (
-            html[:closing.start()]
+            html[: closing.start()]
             + "\n".join(new_links)
             + "\n    "
-            + html[closing.start():]
+            + html[closing.start() :]
         )
 
         list_file.write_text(html, encoding="utf-8")
