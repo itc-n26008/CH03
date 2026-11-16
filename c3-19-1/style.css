@@ -1,6 +1,6 @@
 @charset"UTF-8";
 .container {
-    display: flex;
+    display: flex; /* ブロックみたいになる*/
     justify-content: center;
 }
 
