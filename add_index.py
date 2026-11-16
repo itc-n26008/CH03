@@ -53,7 +53,7 @@ for target in targets:
         f'        <li><a href="{escape(href, quote=True)}">{escape(name)}</a></li>'
     )
 
-    existing.add(href)
+existing.add(href.rstrip("/"))
 
 # 新しいリンクを ul の中に追加
 if new_links:
